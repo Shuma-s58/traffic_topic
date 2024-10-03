@@ -32,10 +32,10 @@ class TrafficJudgmenter(Node):
         self.current_waypoint_msg = msg.data
 
         # 条件を満たしたらアクションを実行
-        self.check_conditions_and_act()
+        self.traffic_judgment()
 
     def shell_output_callback(self, msg):
-        self.get_logger().info(f'shell output received: {msg.data}')
+        #self.get_logger().info(f'shell output received: {msg.data}')
         self.traffic_msg = msg.data
 
         # 条件を満たしたらアクションを実行
@@ -44,7 +44,7 @@ class TrafficJudgmenter(Node):
     def traffic_judgment(self):
         # 両方のデータが取得されていて、特定の条件を満たしているかチェック
         if self.current_waypoint_msg is not None and self.traffic_msg is not None:
-            if self.current_waypoint_msg == 5 and "blue" in self.traffic_msg:  # 条件を定義
+            if self.current_waypoint_msg == 5 and "chair" in self.traffic_msg:  # 条件を定義
                 self.next_waypoint_service()
 
     def next_waypoint_service(self):
