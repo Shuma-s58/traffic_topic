@@ -59,7 +59,7 @@ class TrafficJudgmenter(Node):
             else:
                 self.get_logger().info('wait the crossing chance...')
         else:
-            self.get_logger().info('wait srart...')
+            self.get_logger().info('wait start publisher...')
 
     def send_request(self):
         # リクエストメッセージを作成
@@ -75,12 +75,6 @@ class TrafficJudgmenter(Node):
             self.get_logger().info(f'Response: success={response.success}, message="{response.message}"')
         except Exception as e:
             self.get_logger().error(f'Service call failed: {e}')
-
-
-    def next_waypoint_service(self):
-        # next waypoint
-        subprocess.Popen(['ros2', 'service', 'call', '/waypoint_manager2/next_wp', 'std_srvs/srv/Trigger'])
-        self.get_logger().info('success!! next waypoint!!')
         
 def main(args=None):
     rclpy.init(args=args)
