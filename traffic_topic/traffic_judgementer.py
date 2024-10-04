@@ -19,8 +19,8 @@ class TrafficJudgmenter(Node):
 
         self.traffic_yolov8_sub = self.create_subscription(
             String,  # 2つ目のトピックのメッセージ型
-            'shell_output',  # 2つ目のトピック名
-            self.shell_output_callback,
+            'current_traffic_output',  # 2つ目のトピック名
+            self.current_traffic_output_callback,
             1)
 
         # client
@@ -41,7 +41,7 @@ class TrafficJudgmenter(Node):
         # 条件を満たしたらアクションを実行
         #self.traffic_judgment()
 
-    def shell_output_callback(self, msg):
+    def current_traffic_output_callback(self, msg):
         #self.get_logger().info(f'shell output received: {msg.data}')
         self.traffic_msg = msg.data
 

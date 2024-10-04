@@ -21,7 +21,7 @@ setup(
     entry_points={
         'console_scripts': [
             'shell_publisher = traffic_topic.shell_publisher:main',
-            'traffic_lifecycle_publisher = traffic_topic.traffic_lifecycle_publisher:main',
+            'traffic_observer = traffic_topic.traffic_observer:main',
             'traffic_judgementer = traffic_topic.traffic_judgementer:main',
         ],
     },
