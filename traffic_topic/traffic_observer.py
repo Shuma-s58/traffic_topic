@@ -12,10 +12,11 @@ class TrafficObserver(Node):
         
         # スクリプトを非同期に実行し、出力を逐次読み取る
         self.process = subprocess.Popen(
-            ['/root/shell/connect_yolov8.sh'],  # 実行したいスクリプトを指定
+            ['exec /root/shell/connect_yolov8.sh'],  # 実行したいスクリプトを指定
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True,
+            shell=True,
             bufsize=1  # 出力を1行ごとにバッファリング
         )
 
@@ -32,19 +33,27 @@ class TrafficObserver(Node):
             #self.get_logger().info('Publishing: "%s"' % msg.data)
 
         # プロセスが終了した場合の処理
-        self.process.stdout.close()
+        if self.process.stdout:
+            self.process.stdout.close()
+            self.process.wait()
+
+        #self.process.terminate()
+        self.process.kill()
         self.process.wait()
+
+    def stop(self):
+        if self.thread:
+            self.thread.join()  # スレッドを終了
 
 def main(args=None):
     rclpy.init(args=args)
 
     traffic_observer = TrafficObserver()
 
-    try:
-        rclpy.spin(traffic_observer)
-    except KeyboardInterrupt:
-        traffic_observer.process.terminate()  # プロセスを終了
-        traffic_observer.thread.join()  # スレッドを終了
+    rclpy.spin(traffic_observer)
+
+    # 停止時にスレッドの終了を待機
+    traffic_observer.stop()
 
     traffic_observer.destroy_node()
     rclpy.shutdown()
