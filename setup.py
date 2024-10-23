@@ -13,7 +13,7 @@ setup(
     ],
     install_requires=['setuptools'],
     zip_safe=True,
-    maintainer='root',
+    maintainer='Shuma-s58',
     maintainer_email='shuma.suzuki.2021@outlook.jp',
     description='a package for tukuba2024',
     license='BSD-3-Clause',
