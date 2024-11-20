@@ -8,6 +8,7 @@ from std_msgs.msg import String
 import subprocess
 from std_srvs.srv import Trigger
 import yaml
+import time
 
 CROSSPOINT_PATH = '/root/yolov8_ws/src/traffic_topic/config/crossing_points/test.yaml'
 
@@ -32,7 +33,7 @@ class TrafficJudgmenter(Node):
         self.client = self.create_client(Trigger, 'waypoint_manager2/next_wp')
 
         # timer
-        self.timer = self.create_timer(2.0, self.traffic_judgment)
+        #self.timer = self.create_timer(2.0, self.traffic_judgment)
 
         # 各トピックからのデータを保持する変数
         self.current_waypoint_msg = None
@@ -49,14 +50,14 @@ class TrafficJudgmenter(Node):
         self.current_waypoint_msg = msg.data
 
         # 条件を満たしたらアクションを実行
-        #self.traffic_judgment()
+        self.traffic_judgment()
 
     def current_traffic_output_callback(self, msg):
         #self.get_logger().info(f'shell output received: {msg.data}')
         self.traffic_msg = msg.data
 
         # 条件を満たしたらアクションを実行
-        #self.traffic_judgment()
+        self.traffic_judgment()
 
     def traffic_judgment(self):
         # 両方のデータが取得されていて、特定の条件を満たしているかチェック
@@ -67,6 +68,7 @@ class TrafficJudgmenter(Node):
 
                 # サービスリクエストの送信
                 self.send_request()
+                time.sleep(2)
             else:
                 self.get_logger().info('wait the crossing chance...')
         else:
