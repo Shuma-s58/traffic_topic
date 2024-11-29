@@ -44,7 +44,7 @@ class TrafficJudgmenter(Node):
         self.crossing_points_numbers = self.crossing_points_data['crossing_point_numbers']
 
         # reqest_flag
-        traffic_request = False
+        self.traffic_request = False
 
     def current_waypoint_callback(self, msg):
         #self.get_logger().info(f'current waypoint received: {msg.data}')
